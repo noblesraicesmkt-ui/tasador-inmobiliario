@@ -53,9 +53,9 @@ if api_key:
             # Formatear historial para la IA
             history = [types.Content(role=m["role"], parts=[types.Part.from_text(text=m["content"])]) for m in st.session_state.messages]
             
-            # Generar respuesta
+            # Generar respuesta usando la versión más estable
             response = client.models.generate_content(
-                model="gemini-2.0-flash-exp",
+                model="gemini-1.5-flash", 
                 contents=history,
                 config=config
             )
