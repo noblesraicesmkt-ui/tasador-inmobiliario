@@ -11,7 +11,8 @@ with st.sidebar:
 
 if api_key:
     try:
-        client = genai.Client(api_key=api_key)
+        # Forzamos la configuración para evitar el error 404
+        client = genai.Client(api_key=api_key, http_options={'api_version': 'v1alpha'})
         
         if "messages" not in st.session_state:
             st.session_state.messages = []
@@ -27,17 +28,17 @@ if api_key:
                 st.markdown(prompt)
 
             with st.chat_message("assistant"):
-                # Simplificamos al máximo el envío
+                # Usamos el nombre del modelo sin el prefijo 'models/' que causaba el conflicto
                 response = client.models.generate_content(
                     model="gemini-1.5-flash", 
-                    contents=prompt, # Respuesta directa al último mensaje
+                    contents=prompt,
                     config=types.GenerateContentConfig(
-                        system_instruction="Eres TasaBot, tasador experto. Entrevista al broker una pregunta a la vez sobre la propiedad."
+                        system_instruction="Eres TasaBot, tasador experto. Entrevista al broker una pregunta a la vez."
                     )
                 )
                 st.markdown(response.text)
                 st.session_state.messages.append({"role": "assistant", "content": response.text})
     except Exception as e:
-        st.error(f"Hubo un problema de conexión. Verifica que tu API Key sea correcta. Error: {e}")
+        st.error(f"Error detectado: {e}")
 else:
     st.warning("⚠️ Ingresa tu API Key en la barra lateral para comenzar.")
