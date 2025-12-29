@@ -55,7 +55,7 @@ if api_key:
             
             # Generar respuesta usando la versión más estable
             response = client.models.generate_content(
-                model="gemini-1.5-flash", 
+                model= "models/gemini-1.5-flash", 
                 contents=history,
                 config=config
             )
