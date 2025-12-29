@@ -11,7 +11,7 @@ with st.sidebar:
 
 if api_key:
     try:
-        # Quitamos la especificación de versión para que Google elija la correcta
+        # Cliente simplificado
         client = genai.Client(api_key=api_key)
         
         if "messages" not in st.session_state:
@@ -28,17 +28,17 @@ if api_key:
                 st.markdown(prompt)
 
             with st.chat_message("assistant"):
-                # Cambiamos a 1.5-pro que tiene mayor disponibilidad
+                # USAMOS EL MODELO QUE TE APARECE EN TU CAPTURA DE PANTALLA
                 response = client.models.generate_content(
-                    model="gemini-1.5-pro", 
+                    model="gemini-2.0-flash-exp", 
                     contents=prompt,
                     config=types.GenerateContentConfig(
-                        system_instruction="Eres TasaBot, tasador experto. Entrevista al broker una pregunta a la vez."
+                        system_instruction="Eres TasaBot, experto tasador. Entrevista al broker una pregunta a la vez."
                     )
                 )
                 st.markdown(response.text)
                 st.session_state.messages.append({"role": "assistant", "content": response.text})
     except Exception as e:
-        st.error(f"Ajustando conexión... por favor intenta de nuevo en 5 segundos. (Error: {e})")
+        st.error(f"Error de conexión: {e}")
 else:
     st.warning("⚠️ Ingresa tu API Key en la barra lateral para comenzar.")
