@@ -43,7 +43,7 @@ if api_key:
         with st.chat_message("assistant"):
             # Configuramos el "Cerebro" y las Herramientas (Búsqueda de Google)
             config = types.GenerateContentConfig(
-                tools=[types.Tool(google_search=types.GoogleSearch())],
+                tools=[],
                 system_instruction="""Rol: Eres TasaBot, experto tasador. 
                 Entrevista al broker paso a paso (UNA pregunta a la vez). 
                 Pregunta: Ubicación, Tipo, Metros, Ambientes, Estado y Amenidades. 
